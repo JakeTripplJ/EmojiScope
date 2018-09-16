@@ -16,6 +16,8 @@ limitations under the License.
 package org.tensorflow.demo.tracking;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -32,6 +34,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import org.tensorflow.demo.Classifier.Recognition;
+import org.tensorflow.demo.R;
 import org.tensorflow.demo.env.BorderedText;
 import org.tensorflow.demo.env.ImageUtils;
 import org.tensorflow.demo.env.Logger;
@@ -130,6 +133,15 @@ public class MultiBoxTracker {
     for (final Pair<Float, RectF> detection : screenRects) {
       final RectF rect = detection.second;
       canvas.drawRect(rect, boxPaint);
+
+      int w = 100, h = 100;
+
+      Bitmap.Config conf = Bitmap.Config.ARGB_8888; // see other conf types
+      Bitmap bmp = Bitmap.createBitmap(w, h, conf); // this creates a MUTABLE bitmap
+
+      canvas.drawBitmap(bmp, frameToCanvasMatrix, null);
+
+
       canvas.drawText("" + detection.first, rect.left, rect.top, textPaint);
       borderedText.drawText(canvas, rect.centerX(), rect.centerY(), "" + detection.first);
     }
@@ -183,7 +195,11 @@ public class MultiBoxTracker {
       boxPaint.setColor(recognition.color);
 
       final float cornerSize = Math.min(trackedPos.width(), trackedPos.height()) / 8.0f;
-      canvas.drawRoundRect(trackedPos, cornerSize, cornerSize, boxPaint);
+      //canvas.drawRoundRect(trackedPos, cornerSize, cornerSize, boxPaint);
+      Bitmap icon = BitmapFactory.decodeResource(context.getResources(),
+              R.drawable.ic_launcher);
+      //canvas.drawBitmap(icon, trackedPos);
+      canvas.drawBitmap(icon, trackedPos.centerX(), trackedPos.centerY(), null);
 
       final String labelString =
           !TextUtils.isEmpty(recognition.title)
