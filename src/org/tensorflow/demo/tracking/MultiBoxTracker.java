@@ -29,6 +29,7 @@ import android.graphics.RectF;
 import android.text.TextUtils;
 import android.util.Pair;
 import android.util.TypedValue;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.net.URI;
@@ -200,18 +201,23 @@ public class MultiBoxTracker {
 
       final float cornerSize = Math.min(trackedPos.width(), trackedPos.height()) / 8.0f;
       canvas.drawRoundRect(trackedPos, cornerSize, cornerSize, boxPaint);
-      Bitmap icon = BitmapFactory.decodeResource(context.getResources(),
-              R.drawable.person);
       try {
         URI pathString = new URI("/drawable/" + recognition.title + ".png");
       } catch (URISyntaxException e) {
         e.printStackTrace();
       }
 
+      int drawableId = context.getResources().getIdentifier(recognition.title, "drawable", context.getPackageName());
+  
+      if (drawableId != 0) {
+        Bitmap icon = BitmapFactory.decodeResource(context.getResources(),
+                R.drawable.person);
 
-      Bitmap resized = Bitmap.createScaledBitmap(icon, (int) trackedPos.width(), (int) trackedPos.height(), true);
+        Bitmap resized = Bitmap.createScaledBitmap(icon, (int) trackedPos.width(), (int) trackedPos.height(), true);
+        canvas.drawBitmap(resized, trackedPos.centerX()-(trackedPos.width()/2), trackedPos.centerY()-(trackedPos.height()/2), null);
+      }
 
-      canvas.drawBitmap(resized, trackedPos.centerX()-(trackedPos.width()/2), trackedPos.centerY()-(trackedPos.height()/2), null);
+
 
 
 
