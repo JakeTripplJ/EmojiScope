@@ -207,6 +207,8 @@ public class MultiBoxTracker {
         e.printStackTrace();
       }
 
+      recognition.title = recognition.title.replaceAll(" ", "_");
+
       int drawableId = context.getResources().getIdentifier(recognition.title, "drawable", context.getPackageName());
 
       if (drawableId != 0) {
@@ -224,7 +226,7 @@ public class MultiBoxTracker {
           !TextUtils.isEmpty(recognition.title)
               ? String.format("%s %.2f", recognition.title, recognition.detectionConfidence)
               : String.format("%.2f", recognition.detectionConfidence);
-      //borderedText.drawText(canvas, trackedPos.left + cornerSize, trackedPos.bottom, labelString);
+      borderedText.drawText(canvas, trackedPos.left + cornerSize, trackedPos.bottom, labelString);
     }
   }
 
