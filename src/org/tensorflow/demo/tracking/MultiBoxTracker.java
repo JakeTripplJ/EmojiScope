@@ -30,6 +30,10 @@ import android.text.TextUtils;
 import android.util.Pair;
 import android.util.TypedValue;
 import android.widget.Toast;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -195,11 +199,21 @@ public class MultiBoxTracker {
       boxPaint.setColor(recognition.color);
 
       final float cornerSize = Math.min(trackedPos.width(), trackedPos.height()) / 8.0f;
-      //canvas.drawRoundRect(trackedPos, cornerSize, cornerSize, boxPaint);
+      canvas.drawRoundRect(trackedPos, cornerSize, cornerSize, boxPaint);
       Bitmap icon = BitmapFactory.decodeResource(context.getResources(),
-              R.drawable.ic_launcher);
-      //canvas.drawBitmap(icon, trackedPos);
-      canvas.drawBitmap(icon, trackedPos.centerX(), trackedPos.centerY(), null);
+              R.drawable.person);
+      try {
+        URI pathString = new URI("/drawable/" + recognition.title + ".png");
+      } catch (URISyntaxException e) {
+        e.printStackTrace();
+      }
+
+
+      Bitmap resized = Bitmap.createScaledBitmap(icon, (int) trackedPos.width(), (int) trackedPos.height(), true);
+
+      canvas.drawBitmap(resized, trackedPos.centerX()-(trackedPos.width()/2), trackedPos.centerY()-(trackedPos.height()/2), null);
+
+
 
       final String labelString =
           !TextUtils.isEmpty(recognition.title)
