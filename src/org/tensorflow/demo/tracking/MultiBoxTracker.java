@@ -200,7 +200,7 @@ public class MultiBoxTracker {
       boxPaint.setColor(recognition.color);
 
       final float cornerSize = Math.min(trackedPos.width(), trackedPos.height()) / 8.0f;
-      canvas.drawRoundRect(trackedPos, cornerSize, cornerSize, boxPaint);
+      //canvas.drawRoundRect(trackedPos, cornerSize, cornerSize, boxPaint);
       try {
         URI pathString = new URI("/drawable/" + recognition.title + ".png");
       } catch (URISyntaxException e) {
@@ -208,10 +208,9 @@ public class MultiBoxTracker {
       }
 
       int drawableId = context.getResources().getIdentifier(recognition.title, "drawable", context.getPackageName());
-  
+
       if (drawableId != 0) {
-        Bitmap icon = BitmapFactory.decodeResource(context.getResources(),
-                R.drawable.person);
+        Bitmap icon = BitmapFactory.decodeResource(context.getResources(), drawableId);
 
         Bitmap resized = Bitmap.createScaledBitmap(icon, (int) trackedPos.width(), (int) trackedPos.height(), true);
         canvas.drawBitmap(resized, trackedPos.centerX()-(trackedPos.width()/2), trackedPos.centerY()-(trackedPos.height()/2), null);
@@ -225,7 +224,7 @@ public class MultiBoxTracker {
           !TextUtils.isEmpty(recognition.title)
               ? String.format("%s %.2f", recognition.title, recognition.detectionConfidence)
               : String.format("%.2f", recognition.detectionConfidence);
-      borderedText.drawText(canvas, trackedPos.left + cornerSize, trackedPos.bottom, labelString);
+      //borderedText.drawText(canvas, trackedPos.left + cornerSize, trackedPos.bottom, labelString);
     }
   }
 
